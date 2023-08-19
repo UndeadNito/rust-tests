@@ -1,8 +1,10 @@
 use std::env::args;
 
 use fib::use_fib;
+use server::start_listener;
 
 mod fib;
+mod server;
 
 
 enum PROGRAMS{
@@ -10,7 +12,7 @@ enum PROGRAMS{
     Nothing
 }
 
-fn main() {
+fn main_old() {
     let program_string = args().nth(1);
 
     let program: PROGRAMS = match program_string{
@@ -33,5 +35,9 @@ fn main() {
 
         PROGRAMS::Nothing => println!("Program name expected as first argument"),
     };
+}
+
+fn main() {
+    start_listener();
 }
 
