@@ -12,7 +12,7 @@ enum PROGRAMS{
     Nothing
 }
 
-fn main_old() {
+fn _main_old() {
     let program_string = args().nth(1);
 
     let program: PROGRAMS = match program_string{

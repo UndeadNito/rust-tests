@@ -5,7 +5,7 @@ use std::thread;
 const PORT: &str = "3003";
 
 pub fn start_listener() {
-    let listener_result = TcpListener::bind(format!("127.0.0.1:{}", PORT));
+    let listener_result = TcpListener::bind(format!("0.0.0.0:{}", PORT));
 
     if listener_result.is_err() {
         println!("failed to start rust-tests on port {}", PORT);
@@ -33,9 +33,13 @@ pub fn start_listener() {
 }
 
 fn handle_stream(mut stream: TcpStream) {
-    println!("listening for {:?}", stream.peer_addr().ok());
+    
+        match stream.peer_addr(){
+            Ok(address) => { println!("listening for: {:?}", address) }
+            Err(_) => { println!("listening for: {{failed to get address}}") }
+        };
 
-    let mut buffer = [0u8; 256];
+    let mut buffer = [0u8; 8];
     match stream.read(&mut buffer) {
         Ok(_) => {
             println!("{}", String::from_utf8_lossy(&buffer));
@@ -49,6 +53,6 @@ fn handle_stream(mut stream: TcpStream) {
 
     match stream.write("Received".as_bytes()) {
         Ok(_) => {}
-        Err(error) => {}
+        Err(_) => {}
     }
 }
